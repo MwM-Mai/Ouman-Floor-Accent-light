@@ -1,0 +1,182 @@
+.smear_lights {
+  width: 100%;
+  margin-bottom: 40rpx;
+}
+
+.strip_box {
+  width: 100%;
+  position: relative;
+}
+
+.light_slider {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.strip_top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.light_num {
+  margin-right: 30rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28rpx;
+
+  image {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 12rpx;
+  }
+}
+
+.strip_mode_item { 
+  flex: 1;
+  margin: 0 auto;
+  margin-top: 40rpx;
+  max-width: 600rpx;
+  height: 60rpx;
+  border-radius: 40rpx;
+  background-color: var(--theme-button-background-color);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.save {
+  margin-left: 30rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28rpx;
+  color: var(--theme-save-color);
+
+  image {
+    width: 30rpx;
+    height: 30rpx;
+    margin-right: 12rpx;
+  }
+}
+
+.page_box {
+  margin-top: 20rpx;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  
+  image {
+    width: 40rpx;
+    height: 40rpx;
+  }
+}
+
+.save_box {
+  width: 500rpx;
+  height: 300rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.save_box_top {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000000;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.save_box_center {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+
+  .input {
+    caret-color: #000000
+  }
+}
+
+.save_box_bottom {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  color: #000000;
+  
+  .btn {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .comfirm { 
+    color: var(--nav-bar-text-color);
+    position: relative;
+  }
+
+  .comfirm::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 2rpx;
+    height: 70%;
+    background: #9b9b9b;
+  }
+}
+
+.dimmer_strip {
+  width: 105%;
+  height: 180px;
+  padding-top: 20rpx;
+}
+
+.dimmer_strip_all {
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.collapse {
+  animation: collapse 0.5s forwards;
+}
+
+.expanded {
+  animation: expanded 0.5s forwards;
+}
+
+@keyframes collapse {
+  from {
+    height: 180px;
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+}
+
+@keyframes expanded {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: 180px;
+    opacity: 1;
+  }
+}

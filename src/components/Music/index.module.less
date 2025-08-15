@@ -1,0 +1,170 @@
+.music{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 200rpx;
+}
+
+.music_mode {
+  width: 100%;
+  background: var(--theme-tabbar-background-color);
+  border-radius: 24rpx;
+  filter: blur(0px);
+  padding: 20rpx 36rpx;
+}
+
+.tab {
+  width: 100%;
+  height: 56rpx;
+  background: var(--theme-background-color);
+  border-radius: 22rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab_item {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28rpx;
+  border-radius: 22rpx;
+
+}
+
+.tab_active {
+  background: var(--theme-button-background-color);
+}
+
+.music_list {
+  margin-top: 40rpx;
+  margin-bottom: 88rpx;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 48rpx 0;
+}
+
+.music_list_item {
+  width: 128rpx;
+  height: 184rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .music_list_item_box {
+    width: 128rpx;
+    height: 128rpx;
+    background: #211D27;
+    border-radius: 40rpx;
+    font-size: 28rpx;
+    color: rgba(255,255,255,0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16rpx;
+  }
+
+  image {
+    width: 96rpx;
+    height: 96rpx;
+  }
+}
+
+.music_list_item_active {
+  background-image: url("@/static/images/music/ic_active.png") !important;
+  background-size: cover !important;
+}
+
+.label {
+  font-size: 28rpx;
+  margin-bottom: 24rpx;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+
+  image {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 8rpx;
+  }
+}
+
+.random_color {
+  margin-top: 16rpx;
+  width: 100%;
+  min-height: 112rpx;
+  min-height: 112rpx;
+  background: rgba(255,255,255,0.06);
+  border-radius: 24rpx;
+  filter: blur(0px);
+  padding: 0 32rpx;
+}
+
+.random_color_top {
+  width: 100%;
+  height: 112rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.85);
+}
+
+.random_color_switch {
+  --switch-node-background-color: rgba(255,255,255,0.65) !important;
+}
+
+.random_color_switch_active {
+  --switch-node-background-color: #15D193 !important;
+}
+
+.random_color_box {
+  margin-top: 20rpx;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 30rpx 0;
+  margin-bottom: 32rpx;
+}
+
+.random_color_list {
+  width: 80rpx;
+  height: 80rpx;
+  background: #4C4852;
+  box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(0,0,0,0.1);
+  border-radius: 24rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.random_color_list_active {
+  box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(0,0,0,0.49);
+  border-radius: 24rpx;
+  border: 4rpx solid var(--theme-button-background-color);
+}
+
+.random_color_list_box {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+  box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.random_color_item {
+  flex: 1;
+  width: 100%;
+}
+
+

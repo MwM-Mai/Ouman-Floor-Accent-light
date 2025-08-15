@@ -1,0 +1,142 @@
+.scene {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 100rpx;
+}
+
+.power {
+  width: 100%;
+  height: 96rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.power_item {
+  flex: 1;
+  height: 100%;
+  font-size: 32rpx;
+  color: rgba(255,255,255,0.65);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  image {
+    width: 112rpx;
+    height: 80rpx;
+    position: absolute;
+    
+  }
+}
+
+.scene_box {
+  width: 100%;
+  background: var(--theme-tabbar-background-color);
+  border-radius: 24rpx;
+  filter: blur(0px);
+  padding: 20rpx 36rpx;
+}
+
+.tab {
+  width: 100%;
+  height: 56rpx;
+  background: var(--theme-background-color);
+  border-radius: 22rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab_item {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24rpx;
+  border-radius: 22rpx;
+
+}
+
+.tab_active {
+  background: var(--theme-button-background-color);
+}
+
+.label {
+  font-size: 28rpx;
+  margin-top: 24rpx;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+
+  image {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 8rpx;
+  }
+
+  .edit {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 26rpx;
+    color: rgba(255,255,255,0.65);
+
+    image {
+      width: 24rpx;
+      height: 24rpx;
+    }
+  }
+}
+
+.scene_list {
+  margin-top: 40rpx;
+  margin-bottom: 88rpx;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 48rpx 0;
+}
+
+.scene_list_item {
+  width: 148rpx;
+  min-height: 184rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 20rpx;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  .scene_list_item_box {
+    width: 128rpx;
+    height: 128rpx;
+    background: #211D27;
+    border-radius: 40rpx;
+    color: rgba(255,255,255,0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16rpx;
+    position: relative;
+    overflow: hidden;
+  }
+
+  image {
+    width: 96rpx;
+    height: 96rpx;
+  }
+}
+
+.scene_list_item_active {
+  background-image: url("@/static/images/music/ic_active.png") !important;
+  background-size: cover !important;
+}

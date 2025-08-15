@@ -1,0 +1,492 @@
+import { keyBy } from 'lodash-es';
+import { GetSmartDeviceModelDpSchema } from '@ray-js/panel-sdk';
+
+export const lampSchema = [
+  {
+    attr: 643,
+    canTrigger: true,
+    code: "switch_led",
+    defaultRecommend: true,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_power",
+    id: 20,
+    mode: "rw",
+    name: "开关",
+    property: {
+      type: "bool"
+    },
+    type: "obj"
+  },
+  {
+    attr: 640,
+    canTrigger: true,
+    code: "work_mode",
+    defaultRecommend: true,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_mode",
+    id: 21,
+    mode: "rw",
+    name: "模式",
+    property: {
+      range: [
+        "white",
+        "colour",
+        "scene",
+        "music"
+      ],
+      type: "enum"
+    },
+    type: "obj"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "bright_value",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-liangdu1",
+    id: 22,
+    mode: "rw",
+    name: "白光亮度",
+    property: {
+      min: 10,
+      max: 1000,
+      scale: 0,
+      step: 1,
+      type: "value"
+    },
+    type: "obj"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "temp_value",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-lengnuan",
+    id: 23,
+    mode: "rw",
+    name: "冷暖值",
+    property: {
+      min: 0,
+      max: 1000,
+      scale: 0,
+      step: 1,
+      type: "value"
+    },
+    type: "obj"
+  },
+  {
+    attr: 512,
+    canTrigger: true,
+    code: "colour_data",
+    defaultRecommend: true,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-yanse",
+    id: 24,
+    mode: "rw",
+    name: "彩光",
+    property: {
+      type: "string",
+      maxlen: 255
+    },
+    type: "obj"
+  },
+  {
+    attr: 640,
+    canTrigger: true,
+    code: "countdown",
+    defaultRecommend: true,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_time2",
+    id: 26,
+    mode: "rw",
+    name: "倒计时剩余时间",
+    property: {
+      unit: "s",
+      min: 0,
+      max: 86400,
+      scale: 0,
+      step: 1,
+      type: "value"
+    },
+    type: "obj"
+  },
+  {
+    attr: 640,
+    canTrigger: true,
+    code: "music_data",
+    defaultRecommend: true,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_mic",
+    id: 27,
+    mode: "wr",
+    name: "音乐灯",
+    property: {
+      type: "string",
+      maxlen: 255
+    },
+    type: "obj"
+  },
+  {
+    attr: 1024,
+    canTrigger: true,
+    code: "control_data",
+    defaultRecommend: false,
+    editPermission: true,
+    executable: true,
+    extContent: "",
+    iconname: "icon-setting",
+    id: 28,
+    mode: "wr",
+    name: "调节",
+    property: {
+      type: "string",
+      maxlen: 255
+    },
+    type: "obj"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "sleep_mode",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_sleep",
+    id: 31,
+    mode: "rw",
+    name: "灯光助眠",
+    property: {
+      type: "raw",
+      maxlen: 128
+    },
+    type: "raw"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "wakeup_mode",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_notice",
+    id: 32,
+    mode: "rw",
+    name: "灯光唤醒",
+    property: {
+      type: "raw",
+      maxlen: 128
+    },
+    type: "raw"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "do_not_disturb",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_mode",
+    id: 34,
+    mode: "rw",
+    name: "停电勿扰",
+    property: {
+      type: "bool"
+    },
+    type: "obj"
+  },
+  {
+    attr: 1536,
+    canTrigger: true,
+    code: "light_length",
+    defaultRecommend: true,
+    editPermission: true,
+    executable: true,
+    extContent: "",
+    iconname: "icon-setting",
+    id: 46,
+    mode: "ro",
+    name: "灯带长度",
+    property: {
+      unit: "cm",
+      min: 1,
+      max: 10000,
+      scale: 0,
+      step: 1,
+      type: "value"
+    },
+    type: "obj"
+  },
+  {
+    attr: 1536,
+    canTrigger: true,
+    code: "light_pixel",
+    defaultRecommend: true,
+    editPermission: true,
+    executable: true,
+    extContent: "",
+    iconname: "icon-setting",
+    id: 47,
+    mode: "ro",
+    name: "灯带点数",
+    property: {
+      min: 1,
+      max: 1024,
+      scale: 0,
+      step: 1,
+      type: "value"
+    },
+    type: "obj"
+  },
+  {
+    attr: 640,
+    canTrigger: true,
+    code: "dreamlight_scene_mode",
+    defaultRecommend: true,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_mode",
+    id: 51,
+    mode: "rw",
+    name: "幻彩情景",
+    property: {
+      type: "raw",
+      maxlen: 128
+    },
+    type: "raw"
+  },
+  {
+    attr: 128,
+    canTrigger: true,
+    code: "dreamlightmic_music_data",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_mic",
+    id: 52,
+    mode: "rw",
+    name: "幻彩本地音乐律动",
+    property: {
+      type: "raw",
+      maxlen: 128
+    },
+    type: "raw"
+  },
+  {
+    attr: 1664,
+    canTrigger: true,
+    code: "lightpixel_number_set",
+    defaultRecommend: true,
+    editPermission: true,
+    executable: true,
+    extContent: "",
+    iconname: "icon-gongneng",
+    id: 53,
+    mode: "rw",
+    name: "点数/长度设置",
+    property: {
+      min: 1,
+      max: 1000,
+      scale: 1,
+      step: 1,
+      type: "value"
+    },
+    type: "obj"
+  },
+  {
+    attr: 512,
+    canTrigger: true,
+    code: "paint_colour_data",
+    defaultRecommend: true,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_circle",
+    id: 61,
+    mode: "rw",
+    name: "涂抹调色",
+    property: {
+      type: "raw",
+      maxlen: 128
+    },
+    type: "raw"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "light_bead_sequence",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    iconname: "icon-dp_list",
+    id: 77,
+    mode: "rw",
+    name: "灯珠线序",
+    property: {
+      range: [
+        "rgb",
+        "rbg",
+        "grb",
+        "gbr",
+        "brg",
+        "bgr"
+      ],
+      type: "enum"
+    },
+    type: "obj"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "main_switch",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    id: 101,
+    mode: "rw",
+    name: "主灯开关",
+    property: {
+      type: "bool"
+    },
+    type: "obj"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "aux_switch",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    id: 102,
+    mode: "rw",
+    name: "底座开关",
+    property: {
+      type: "bool"
+    },
+    type: "obj"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "aux_bright",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    id: 103,
+    mode: "rw",
+    name: "底座白光亮度",
+    property: {
+      unit: "",
+      min: 10,
+      max: 1000,
+      scale: 1,
+      step: 1,
+      type: "value"
+    },
+    type: "obj"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "aux_temp",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    id: 104,
+    mode: "rw",
+    name: "底座白光色温",
+    property: {
+      unit: "",
+      min: 0,
+      max: 1000,
+      scale: 1,
+      step: 1,
+      type: "value"
+    },
+    type: "obj"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "aux_colour",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    id: 105,
+    mode: "rw",
+    name: "底座彩光",
+    property: {
+      type: "raw",
+      maxlen: 128
+    },
+    type: "raw"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "aux_mode",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    id: 106,
+    mode: "rw",
+    name: "底座模式",
+    property: {
+      range: [
+        "white",
+        "colour",
+        "scene"
+      ],
+      type: "enum"
+    },
+    type: "obj"
+  },
+  {
+    attr: 0,
+    canTrigger: true,
+    code: "aux_scene",
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: "",
+    id: 107,
+    mode: "rw",
+    name: "底座情景",
+    property: {
+      type: "raw",
+      maxlen: 128
+    },
+    type: "raw"
+  }
+] as const;
+
+export const lampSchemaMap = keyBy(lampSchema, 'code') as GetSmartDeviceModelDpSchema<
+  typeof lampSchema
+>;
