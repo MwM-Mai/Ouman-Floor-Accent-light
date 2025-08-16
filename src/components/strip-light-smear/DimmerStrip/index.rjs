@@ -113,73 +113,35 @@ export default Render({
     this.touchmove(value.idx);
   },
   addIdxShapeIns(idx, shapeType, _data, isGradient) {
-    // 防止重复生成相同的shape
-    if (this[idx]) {
-      return this[idx];
-    }
+    // 总是重新创建图形对象，或完善数据比较逻辑
     const preDataKey = `preData_${idx}`;
     const preData = this[preDataKey];
     let shape = null;
+    if (this[idx]) {
+      // 移除旧对象
+      this.stage.remove(this[idx]);
+      delete this[idx];
+    }
     switch (shapeType) {
       case 'LeftCircleLine':
-        if (preData) {
-          const isEqualObj = isEqual(preData, _data);
-          if (!isEqualObj) {
-            shape = new LeftCircleLine(_data, isGradient);
-            this[preDataKey] = _data;
-          }
-        } else {
-          shape = new LeftCircleLine(_data, isGradient);
-          this[preDataKey] = _data;
-        }
+        shape = new LeftCircleLine(_data, isGradient);
+        this[preDataKey] = _data;
         break;
       case 'RightCircleLine':
-        if (preData) {
-          const isEqualObj = isEqual(preData, _data);
-          if (!isEqualObj) {
-            shape = new RightCircleLine(_data, isGradient);
-            this[preDataKey] = _data;
-          }
-        } else {
-          shape = new RightCircleLine(_data, isGradient);
-          this[preDataKey] = _data;
-        }
+        shape = new RightCircleLine(_data, isGradient);
+        this[preDataKey] = _data;
         break;
       case 'LastCircleLine':
-        if (preData) {
-          const isEqualObj = isEqual(preData, _data);
-          if (!isEqualObj) {
-            shape = new LastCircleLine(_data, isGradient);
-            this[preDataKey] = _data;
-          }
-        } else {
-          shape = new LastCircleLine(_data, isGradient);
-          this[preDataKey] = _data;
-        }
+        shape = new LastCircleLine(_data, isGradient);
+        this[preDataKey] = _data;
         break;
       case 'HorizontalLeftLine':
-        if (preData) {
-          const isEqualObj = isEqual(preData, _data);
-          if (!isEqualObj) {
-            shape = new RoundLine(_data, isGradient);
-            this[preDataKey] = _data;
-          }
-        } else {
-          shape = new RoundLine(_data, isGradient);
-          this[preDataKey] = _data;
-        }
+        shape = new RoundLine(_data, isGradient);
+        this[preDataKey] = _data;
         break;
       case 'HorizontalRightLine':
-        if (preData) {
-          const isEqualObj = isEqual(preData, _data);
-          if (!isEqualObj) {
-            shape = new RoundLine(_data, isGradient);
-            this[preDataKey] = _data;
-          }
-        } else {
-          shape = new RoundLine(_data, isGradient);
-          this[preDataKey] = _data;
-        }
+        shape = new RoundLine(_data, isGradient);
+        this[preDataKey] = _data;
         break;
       default:
         break;
@@ -200,14 +162,6 @@ export default Render({
     }
 
     const preDataKey = `preData_${_data.idx}`;
-    const preData = this[preDataKey];
-    if (preData) {
-      const isEqualObj = isEqual(preData, _data);
-      if (isEqualObj) {
-        return;
-      }
-    }
-
     const type = 'LeftCircleLine';
     const leftCircleLine = this.addIdxShapeIns(_data.idx, type, _data, isGradient);
     if (!leftCircleLine) {
@@ -220,13 +174,6 @@ export default Render({
   renderRightCircleLine(stage, ctx, _data, isGradient = false) {
     const type = 'RightCircleLine';
     const preDataKey = `preData_${_data.idx}`;
-    const preData = this[preDataKey];
-    if (preData) {
-      const isEqualObj = isEqual(preData, _data);
-      if (isEqualObj) {
-        return;
-      }
-    }
     const rightCircleLine = this.addIdxShapeIns(_data.idx, type, _data, isGradient);
     if (!rightCircleLine) {
       return;
@@ -238,13 +185,6 @@ export default Render({
   renderLastCircleLine(stage, ctx, _data, isGradient = false) {
     const type = 'LastCircleLine';
     const preDataKey = `preData_${_data.idx}`;
-    const preData = this[preDataKey];
-    if (preData) {
-      const isEqualObj = isEqual(preData, _data);
-      if (isEqualObj) {
-        return;
-      }
-    }
     const lastCircleLine = this.addIdxShapeIns(_data.idx, type, _data, isGradient);
     if (!lastCircleLine) {
       return;
@@ -259,13 +199,6 @@ export default Render({
     }
     const type = 'HorizontalLeftLine';
     const preDataKey = `preData_${_data.idx}`;
-    const preData = this[preDataKey];
-    if (preData) {
-      const isEqualObj = isEqual(preData, _data);
-      if (isEqualObj) {
-        return;
-      }
-    }
     const leftRoundLine = this.addIdxShapeIns(_data.idx, type, _data, isGradient);
     if (!leftRoundLine) {
       return;
@@ -280,13 +213,6 @@ export default Render({
     }
     const type = 'HorizontalRightLine';
     const preDataKey = `preData_${_data.idx}`;
-    const preData = this[preDataKey];
-    if (preData) {
-      const isEqualObj = isEqual(preData, _data);
-      if (isEqualObj) {
-        return;
-      }
-    }
     const rightRoundLine = this.addIdxShapeIns(_data.idx, type, _data, isGradient);
     if (!rightRoundLine) {
       return;

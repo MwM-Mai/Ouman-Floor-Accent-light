@@ -95,10 +95,4 @@ export const defaultProps: IProps = {
   lightColorMaps: {},
   type: SmearMode.all,
   gradient: false,
-  onLightChange: function (lightSet: Set<number>): void {
-    throw new Error("Function not implemented.");
-  },
-  onLightEnd: function (lightSet: Set<number>): void {
-    throw new Error("Function not implemented.");
-  }
 };

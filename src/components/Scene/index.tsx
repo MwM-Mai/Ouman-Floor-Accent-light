@@ -38,6 +38,7 @@ const auxScenes: IAuxScene[] = [
     B: 1000,
     T: 1000,
     icon: require('@/static/images/scene/aux_light/aux_scene_0.png'),
+    name: String.getLang(`scene_mode_0`)
   },
   {
     sceneId: 2,
@@ -50,6 +51,7 @@ const auxScenes: IAuxScene[] = [
     B: 1000,
     T: 1000,
     icon: require('@/static/images/scene/aux_light/aux_scene_1.png'),
+    name: String.getLang(`scene_mode_1`)
   },
   {
     sceneId: 3,
@@ -62,6 +64,20 @@ const auxScenes: IAuxScene[] = [
     B: 1000,
     T: 1000,
     icon: require('@/static/images/scene/aux_light/aux_scene_2.png'),
+    name: String.getLang(`scene_mode_2`)
+  },
+  {
+    sceneId: 3,
+    transitionInterval: 100,
+    duration: 100,
+    changeMode: 3,
+    H: 1000,
+    S: 1000,
+    V: 1000,
+    B: 1000,
+    T: 1000,
+    icon: require('@/static/images/scene/aux_light/aux_scene_3.png'),
+    name: String.getLang(`aux_scene_name_01`)
   },
 ]
 

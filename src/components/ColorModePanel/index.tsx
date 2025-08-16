@@ -158,7 +158,7 @@ export const ColorModePanel: React.FC<Props> = ({
               {String.getLang("combination")}</View>
           }
         </View>
-        <View style={{ width: "100%", margin: "0 auto" }}>
+        <View style={{ width: "100%", display: "flex", justifyContent: "center" }}>
           {colourBoxRender}
         </View>
       </View>
@@ -171,7 +171,7 @@ export const ColorModePanel: React.FC<Props> = ({
           <Text style={{ marginLeft: "16rpx" }}>{Math.ceil(value / 10)} %</Text>
         </View>
         <TYSlider
-          style={{ marginTop: "24rpx" }}
+          style={{ margin: "0 auto", marginTop: "24rpx", width: "300px" }}
           min={1}
           max={100}
           value={value / 10}

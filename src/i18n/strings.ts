@@ -86,7 +86,7 @@ export default {
     loop_playback: "Loop Playback",
 
     // AIY
-    identify: "AI/DIY",
+    identify: "AI Identify",
     diy_scene: "DIY Scene",
     add_scene: "Add Scene",
     diy_scene_max_tips: "You can add up to 10 DIY scenes",
@@ -246,6 +246,8 @@ export default {
     scene_name_0418: 'Flowers bloom',
     scene_name_0419: 'Lotus',
 
+    aux_scene_name_01: "Night Light",
+
     // 灯带设置页面
     lscf_functionTitle: 'Point Settings',
     lscf_tips: 'If you have trimmed the points during use, you can better set the points by adjusting the actual length.',
@@ -345,7 +347,7 @@ export default {
     loop_playback: "循环播放",
 
     // AIY
-    identify: "AI/DIY",
+    identify: "AI识别",
     diy_scene: "DIY场景",
     add_scene: "添加情景",
     diy_scene_max_tips: "最多添加10个DIY情景",
@@ -504,6 +506,8 @@ export default {
     scene_name_0417: '湖烟弥漫',
     scene_name_0418: '春暖花开',
     scene_name_0419: '藕荷',
+
+    aux_scene_name_01: '小夜灯',
 
 
     // 灯带设置

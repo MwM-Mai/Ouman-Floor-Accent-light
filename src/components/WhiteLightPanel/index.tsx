@@ -49,12 +49,12 @@ const WhiteLightPanel: React.FC<Props> = (props) => {
   return (
     <View>
       {/* 色温 */}
-      <View className={styles.module_list} style={{ marginTop: '40rpx' }}>
-        <View className={styles.label}>
-          <Image src={require('@/static/images/home/ic_disk.png')} />
-        </View>
-        <View style={{ margin: '0 auto' }}>
-          {isSupportTemp ? (
+      {
+        isSupportTemp && <View className={styles.module_list} style={{ marginTop: '40rpx' }}>
+          <View className={styles.label}>
+            <Image src={require('@/static/images/home/ic_disk.png')} />
+          </View>
+          <View style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <LampRectWhitePicker
               temp={Math.ceil(temperature)}
               borderRadius={16} // 设置圆角 优先级低于 borderRadiusStyle
@@ -66,19 +66,9 @@ const WhiteLightPanel: React.FC<Props> = (props) => {
               onTouchEnd={handleTouchEndByWhite}
               canvasId="white_picker_1"
             />
-          ) : (
-            <View
-              style={{
-                width: '300px',
-                height: '117px',
-                borderRadius: '16px',
-                background: '#FFCC62',
-                boxSizing: 'border-box',
-              }}
-            />
-          )}
+          </View>
         </View>
-      </View>
+      }
 
       {/* 亮度 */}
       <View className={styles.module_list} style={{ marginTop: '40rpx' }}>
@@ -88,7 +78,7 @@ const WhiteLightPanel: React.FC<Props> = (props) => {
           <Text style={{ marginLeft: '16rpx' }}>{Math.ceil(brightness / 10)}%</Text>
         </View>
         <TYSlider
-          style={{ marginTop: '24rpx' }}
+          style={{ margin: "0 auto", marginTop: "24rpx", width: "300px" }}
           maxTrackHeight={"40rpx"}
           minTrackHeight={"40rpx"}
           minTrackRadius={"40rpx"}

@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import _ from 'lodash'
 import { Switch } from '@ray-js/smart-ui';
 
-import DimmerStrip, { hsv2rgbString } from '../strip-light-smear';
+import DimmerStrip, { hsv2rgbString } from '@/components/strip-light-smear';
 import styles from './index.module.less'
 import String from '@/i18n'
 import { updateSmearData, selectSmearData, SmearDataType } from '@/redux/modules/uiStateSlice'
@@ -34,7 +34,6 @@ const SmearLights = () => {
   const smearData = useSelector(selectSmearData)
   const smearLightColorMaps = useSelector(selectSmearLightColorMaps);
   const collectSmears = useSelector(selectCollectSmearMap);
-
 
   const [isShowSave, setIsShowSave] = useState(false);
   const [name, setName] = useState(''); // 保存的名称
@@ -265,7 +264,7 @@ const SmearLights = () => {
   /**
    * 处理切换灯带是否渐变
   */
-  const hanadleChangeGradient = (e) => {
+  const hanadleChangeGradient = () => {
     console.log('=== handleChangeGradient', smearData.effect === 0 ? 1 : 0);
     structuredActions.paint_colour_data.set({
       ...smearData,
@@ -288,11 +287,8 @@ const SmearLights = () => {
           </View>
           {
             smearData.smearMode !== SmearMode.all && (
-              <Switch
-                checked={Boolean(smearData.effect)}
-                size="48rpx"
-                onChange={hanadleChangeGradient}
-              />
+              <Image className={styles.gradient} src={require("@/static/images/home/ic_gradient.png")}
+                style={{ opacity: smearData.effect ? "1" : "0.6" }} onClick={() => { hanadleChangeGradient() }} />
             )
           }
         </View>

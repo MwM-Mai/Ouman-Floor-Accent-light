@@ -64,7 +64,7 @@ export function Home() {
         }
       },
       {
-        title: String.getLang("identify"),
+        title: String.getLang("diy"),
         icon: require('@/static/images/tabbar/ic_DIY.png'),
         onClick: () => {
           dispatch(updateModeIndex(3));
@@ -129,14 +129,14 @@ export function Home() {
               {power ? <Image src={require("@/static/images/home/ic_on.png")} /> :
                 <Image src={require("@/static/images/home/ic_off.png")} />}
             </View>
-          </View>
-          {/* 更多 */}
-          <View className={styles.more}
-            onClick={() => {
-              router.push("/More")
-            }}>
-            <Image src={require("@/static/images/home/ic_more.png")} className={styles.switch_img} />
-            <Text>{String.getLang("more")}</Text>
+            {/* 更多 */}
+            <View className={styles.more}
+              onClick={() => {
+                router.push("/More")
+              }}>
+              <Image src={require("@/static/images/home/ic_more.png")} className={styles.switch_img} />
+              <Text>{String.getLang("more")}</Text>
+            </View>
           </View>
           {power && <>
             <View className={styles.tabbar}>

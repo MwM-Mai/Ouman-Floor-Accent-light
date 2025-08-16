@@ -19,12 +19,16 @@
 }
 
 .switch {
+  width: 100%;
   position: absolute;
-  left: 32rpx;
+  left: 0;
   top: 464rpx;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   z-index: 2;
+  padding: 0 32rpx;
+  box-sizing: border-box;
 }
 
 .switch_box {
@@ -55,10 +59,6 @@
 }
 
 .more {
-  position: absolute;
-  z-index: 2;
-  top: 480rpx;
-  right: 32rpx;
   min-width: 140rpx;
   min-height: 90rpx;
   background: rgba(255,255,255,0.4);

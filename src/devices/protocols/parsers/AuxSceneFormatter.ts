@@ -12,6 +12,7 @@ export interface IAuxScene {
   B: number,
   T: number,
   icon?: string,
+  name?: string
 }
 
 export default class AuxSceneFormatter {
