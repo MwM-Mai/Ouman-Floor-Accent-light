@@ -657,7 +657,7 @@ const Dimmer = () => {
             onChangeBrightness={(value) => {
               action.aux_bright.set(value * 10);
             }}
-            isSupportTemp={support.isSupportDp("aux_bright")}
+            isSupportTemp={support.isSupportDp("aux_temp")}
           />
         )}
       </View>
@@ -666,6 +666,7 @@ const Dimmer = () => {
 
   return (
     <View className={styles.dimmer}>
+
       <View className={styles.controller_color} >
         {/* 灯光控制组件 */}
         <View className={styles.power}>
