@@ -16,6 +16,7 @@
 }
 
 .strip_top {
+  margin-top: 20rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -139,7 +140,6 @@
 
 .dimmer_strip {
   width: 105%;
-  height: 180px;
   padding-top: 20rpx;
 }
 
@@ -148,6 +148,27 @@
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
+}
+
+.paint_box {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #000;
+  border-radius: 20rpx;
+}
+
+.paint_box_item {
+  width: 80rpx;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  image {
+    width: 40rpx;
+    height: 40rpx;
+  }
 }
 
 .collapse {
@@ -160,7 +181,7 @@
 
 @keyframes collapse {
   from {
-    height: 180px;
+    height: 150px;
     opacity: 1;
   }
   to {
@@ -176,7 +197,7 @@
     opacity: 0;
   }
   to {
-    height: 180px;
+    height: 150px;
     opacity: 1;
   }
 }

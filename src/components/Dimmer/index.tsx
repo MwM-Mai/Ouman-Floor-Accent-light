@@ -91,14 +91,7 @@ const Dimmer = () => {
   const aux_mode = useProps(props => props.aux_mode)
   const aux_colour = useStructuredProps(props => props.aux_colour)
 
-
-  const [powerIndex, setPowerIndex] = useState(0);
-  const [colectIndex, setColectIndex] = useState(-1);
-  const [edit, setEdit] = useState(false);
-  const [showAddcolor, setShowAddcolor] = useState(false);
-  const [type, setType] = useState(1); // 1: 添加 2: 编辑
-  const [id, setId] = useState(-1); // 编辑的颜色id
-  const [tabList, setTabList] = useState<{ name: string, hide: boolean, code: "colour" | "white" }[]>([
+  const tabList: { name: string, hide: boolean, code: "colour" | "white" }[] = [
     {
       name: String.getLang("colour"),
       hide: false,
@@ -106,10 +99,31 @@ const Dimmer = () => {
     },
     {
       name: String.getLang("white"),
-      hide: false,
+      hide: !support.isSupportBright(),
       code: 'white'
     }
-  ])
+  ]
+
+  const auxTabList: { name: string, hide: boolean, code: "colour" | "white" }[] = [
+    {
+      name: String.getLang("colour"),
+      hide: false,
+      code: 'colour'
+    },
+    {
+      name: String.getLang("white"),
+      hide: !support.isSupportDp("aux_bright"),
+      code: 'white'
+    }
+  ]
+
+
+  const [powerIndex, setPowerIndex] = useState(0);
+  const [colectIndex, setColectIndex] = useState(-1);
+  const [edit, setEdit] = useState(false);
+  const [showAddcolor, setShowAddcolor] = useState(false);
+  const [type, setType] = useState(1); // 1: 添加 2: 编辑
+  const [id, setId] = useState(-1); // 编辑的颜色id
 
   const powerList = useMemo(() => [
     {
@@ -288,6 +302,34 @@ const Dimmer = () => {
       dimmerMode: DimmerMode.colour,
       hue: e.h,
       saturation: e.s,
+    }
+    dispatch(updateSmearData(data))
+    handleUpdateSmearColor(data)
+  }
+
+  /**
+   * 处理彩光色盘类型选择
+   */
+  const handleDimmerModeChange = (index: number) => {
+    const dimmerMode = index === 2 ? DimmerMode.combination : DimmerMode.colour;
+    setColectIndex(-1);
+    const data = {
+      ...smearData,
+      dimmerMode,
+    }
+    dispatch(updateSmearData(data))
+    handleUpdateSmearColor(data)
+  }
+
+  /**
+   * 处理选择组合
+   */
+  const handleChangeCombinationColor = (colors: IColorData[]) => {
+    setColectIndex(-1);
+    const data = {
+      ...smearData,
+      smearMode: SmearMode.all,
+      combination: colors,
     }
     dispatch(updateSmearData(data))
     handleUpdateSmearColor(data)
@@ -514,7 +556,7 @@ const Dimmer = () => {
     if (powerIndex !== 0) return null
     return (
       <View className={clsx(!main_switch && styles.offLight)}>
-        <View className={styles.tab}>
+        {tabList.filter(item => !item.hide).length > 1 && <View className={styles.tab}>
           {tabList.filter(item => !item.hide).map((item, index) => (
             <View key={index} className={clsx(styles.tab_item, tabIndex === index && styles.tab_active)}
               onClick={() => {
@@ -524,18 +566,22 @@ const Dimmer = () => {
             </View>
           ))
           }
-        </View>
+        </View>}
         {/* 涂抹调色 */}
         <SmearLights />
         {/* 彩光组件区域 */}
-        {smearData.dimmerMode === DimmerMode.colour && <ColorModePanel
+        {(smearData.dimmerMode === DimmerMode.colour || smearData.dimmerMode === DimmerMode.combination) && <ColorModePanel
           hs={hs}
           value={smearData.value}
+          showCombination={true}
+          type={smearData.dimmerMode === DimmerMode.combination ? 2 : 0}
           fixColor={fixColor}
           onChoosePrimaryColor={handleChoosePrimaryColor}
           onChangeBrightness={onChangeValueByColour}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
+          onDimmerModeChange={handleDimmerModeChange}
+          onChangeCombinationColor={handleChangeCombinationColor}
           hsvToRgb={hsvToRgb}
         />}
         {/* 白光组件区域 */}
@@ -552,14 +598,14 @@ const Dimmer = () => {
         )}
       </View>
     )
-  }, [powerIndex, smearData, fixWhite, tabList, tabIndex, main_switch])
+  }, [powerIndex, smearData, fixWhite, tabIndex, main_switch])
 
   const auxLightRander = useMemo(() => {
     if (powerIndex !== 1) return null;
     return (
       <View className={clsx(!aux_switch && styles.offLight)}>
-        <View className={styles.tab}>
-          {tabList.filter(item => !item.hide).map((item, index) => (
+        {auxTabList.filter(item => !item.hide).length > 1 && <View className={styles.tab}>
+          {auxTabList.filter(item => !item.hide).map((item, index) => (
             <View key={index} className={clsx(styles.tab_item, auxTabIndex === index && styles.tab_active)}
               onClick={() => {
                 action.aux_mode.set(item.code);
@@ -568,7 +614,7 @@ const Dimmer = () => {
             </View>
           ))
           }
-        </View>
+        </View>}
         {/* 底座彩光组件区域 */}
         {aux_mode === "colour" && (
           <ColorModePanel
@@ -611,12 +657,12 @@ const Dimmer = () => {
             onChangeBrightness={(value) => {
               action.aux_bright.set(value * 10);
             }}
-            isSupportTemp={support.isSupportTemp()}
+            isSupportTemp={support.isSupportDp("aux_bright")}
           />
         )}
       </View>
     )
-  }, [powerIndex, aux_colour, aux_bright, aux_temp, aux_mode, auxTabIndex, tabList, aux_switch])
+  }, [powerIndex, aux_colour, aux_bright, aux_temp, aux_mode, auxTabIndex, aux_switch])
 
   return (
     <View className={styles.dimmer}>
@@ -651,7 +697,7 @@ const Dimmer = () => {
 
 
       {/* 我的颜色 */}
-      {
+      {/* {
         (!support.isSupportTemp() && smearData.dimmerMode === DimmerMode.white) || powerIndex === 1 ? (
           <></>
         ) : <View className={styles.my_color}>
@@ -695,7 +741,7 @@ const Dimmer = () => {
             + {String.getLang("add_color")}
           </View>
         </View>
-      }
+      } */}
 
       {render()}
     </View >

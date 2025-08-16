@@ -1,20 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, Text, Image } from '@ray-js/ray';
 import clsx from 'clsx';
 import TYSlider from '@ray-js/components-ty-slider';
-import { LampCirclePickerColor, LampColorWheel } from '@ray-js/components-ty-lamp';
+import { LampRectPickerColor, LampColorCard } from '@ray-js/components-ty-lamp';
 import styles from './index.module.less';
 import { IColorData, IHS } from '@/components/Dimmer/type';
+import { groupColorsList } from "@/config/default";
+import String from '@/i18n';
 
 interface Props {
   hs: { h: number; s: number };
   value: number;
   fixColor: IColorData[];
+  showCombination?: boolean;
+  type?: number
+  onDimmerModeChange?: (type: number) => void;
   onChoosePrimaryColor: (hsv: IColorData) => void;
   onChangeBrightness: (value: number) => void;
   onTouchStart?: (e: IHS) => void;
   onTouchMove?: (e: IHS) => void;
   onTouchEnd: (e: IHS) => void;
+  onChangeCombinationColor?: (hsv: IColorData[]) => void;
   hsvToRgb: (hsv: IColorData) => string;
 }
 
@@ -22,16 +28,21 @@ export const ColorModePanel: React.FC<Props> = ({
   hs,
   value,
   fixColor,
+  showCombination,
+  type = 0,
+  onDimmerModeChange,
   onChoosePrimaryColor,
   onChangeBrightness,
   onTouchStart,
   onTouchMove,
   onTouchEnd,
+  onChangeCombinationColor,
   hsvToRgb,
 }) => {
 
-  const [CPType, setCPType] = useState(true); // true: 色盘, false: 色块
+  const [CPType, setCPType] = useState(0); // 0: 色盘, 1: 色块 2: 组合
   const [primaryIndex, setPrimaryIndex] = useState(-1);
+  const [combinationIndex, setCombinationIndex] = useState(0);
 
   useEffect(() => {
     const { h, s } = hs;
@@ -43,21 +54,112 @@ export const ColorModePanel: React.FC<Props> = ({
     setPrimaryIndex(index);
   }, [hs])
 
+  useEffect(() => {
+    if (type === 2) {
+      setCPType(2);
+    }
+  }, [type])
+
+  // 圆形组件
+  const ColorCircle = ({ colors, size = 70, idx }) => {
+    const anglePerSlice = 360 / colors.length;
+    let gradientParts = [];
+
+    colors.forEach((color, i) => {
+      const start = i * anglePerSlice;
+      const end = (i + 1) * anglePerSlice;
+      gradientParts.push(
+        `${hsvToRgb(color)} ${start}deg ${end}deg`
+      );
+    });
+
+    return (
+      <View
+        style={{
+          width: size,
+          height: size,
+          borderRadius: "50%",
+          background: `conic-gradient(${gradientParts.join(", ")})`,
+          border: idx === combinationIndex ? "1px solid var(--nav-bar-text-color)" : "none",
+          cursor: "pointer"
+        }}
+        onClick={() => {
+          setCombinationIndex(idx);
+          onChangeCombinationColor && onChangeCombinationColor(colors);
+        }}
+      />
+    );
+  };
+
+  const colourBoxRender = useMemo(() => {
+    if (CPType === 0) {
+      return (
+        <LampRectPickerColor
+          hs={hs}
+          borderRadius={16} // 设置圆角 优先级低于 borderRadiusStyle
+          borderRadiusStyle="16rpx"
+          rectWidth={300}
+          rectHeight={117}
+          thumbRadius={12}
+          isShowColorTip
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        />
+      )
+    } else if (CPType === 1) {
+      return (
+        <LampColorCard
+          hs={hs}
+          rectWidth={300}
+          thumbBorderWidth={2}
+          thumbBorderColor="#fff"
+          thumbBorderRadius={4}
+          onTouchEnd={onTouchEnd}
+        />
+      )
+    } else {
+      return (
+        <View style={{ display: "grid", gridTemplateColumns: "repeat(6, auto)", gap: "10px" }}>
+          {groupColorsList.map((colors, idx) => (
+            <ColorCircle idx={idx} key={idx} colors={colors} />
+          ))}
+        </View>
+      )
+    }
+  }, [CPType, hs, showCombination, combinationIndex]);
+
   return (
     <View>
-      {/* 预设颜色选择 */}
+      {/* 色盘/色轮 */}
       <View className={styles.module_list} style={{ marginTop: "40rpx" }}>
-        <View className={styles.label}>
-          <Image src={require('@/static/images/home/ic_primary.png')} />
-          颜色选择
+        <View className={clsx(styles.label)}>
+          <View className={clsx(styles.label_item, CPType === 0 && styles.label_item_active)}
+            onClick={() => {
+              setCPType(0)
+              onDimmerModeChange && onDimmerModeChange(0);
+            }}>
+            {String.getLang("colour")}
+          </View>
+          <View className={clsx(styles.label_item, CPType === 1 && styles.label_item_active)}
+            onClick={() => {
+              setCPType(1)
+              onDimmerModeChange && onDimmerModeChange(1);
+            }}>
+            {String.getLang("colour_card")}
+          </View>
+          {
+            showCombination &&
+            <View className={clsx(styles.label_item, CPType === 2 && styles.label_item_active)}
+              onClick={() => {
+                setCPType(2)
+                onDimmerModeChange && onDimmerModeChange(2);
+              }}>
+              {String.getLang("combination")}</View>
+          }
         </View>
-        <View className={styles.color_list}>
-          {fixColor.map((hsv, index) => (
-            <View key={index} className={clsx(styles.color_item, styles.clear, primaryIndex === index && styles.color_item_active)}
-              onClick={() => onChoosePrimaryColor(hsv)}>
-              <View className={styles.color_box} style={{ backgroundColor: hsvToRgb(hsv) }} />
-            </View>
-          ))}
+        <View style={{ width: "100%", margin: "0 auto" }}>
+          {colourBoxRender}
         </View>
       </View>
 
@@ -69,41 +171,21 @@ export const ColorModePanel: React.FC<Props> = ({
           <Text style={{ marginLeft: "16rpx" }}>{Math.ceil(value / 10)} %</Text>
         </View>
         <TYSlider
+          style={{ marginTop: "24rpx" }}
           min={1}
           max={100}
           value={value / 10}
+          maxTrackHeight={"40rpx"}
+          minTrackHeight={"40rpx"}
+          minTrackRadius={"40rpx"}
+          maxTrackRadius={"40rpx"}
+          parcel
+          maxTrackColor="#45424A"
+          thumbWidth={"40rpx"}
+          thumbHeight={"40rpx"}
+          thumbRadius={"40rpx"}
           onAfterChange={onChangeBrightness}
         />
-      </View>
-
-      {/* 色盘/色轮 */}
-      <View className={styles.module_list} style={{ marginTop: "40rpx" }}>
-        <View className={clsx(styles.label, styles.colour_label)} style={{ justifyContent: "space-between" }}>
-          <Image src={require('@/static/images/home/ic_disk.png')} />
-          <Image className={styles.image} src={require('@/static/images/home/ic_convert.png')} onClick={() => setCPType(!CPType)} />
-        </View>
-        <View style={{ margin: "0 auto" }}>
-          {CPType ? (
-            <LampCirclePickerColor
-              hs={hs}
-              thumbRadius={15}
-              radius={130}
-              whiteRange={0.15}
-              onTouchStart={onTouchStart}
-              onTouchMove={onTouchMove}
-              onTouchEnd={onTouchEnd}
-            />
-          ) : (
-            <LampColorWheel
-              hsColor={hs}
-              hollowRadius={21}
-              centerRingRadius={17}
-              ringRadius={130}
-              paddingWidth={20}
-              onTouchEnd={onTouchEnd}
-            />
-          )}
-        </View>
       </View>
     </View>
   );

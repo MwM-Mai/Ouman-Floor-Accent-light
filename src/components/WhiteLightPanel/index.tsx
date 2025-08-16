@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text } from '@ray-js/ray';
 import TYSlider from '@ray-js/components-ty-slider';
-import { LampCirclePickerWhite } from '@ray-js/components-ty-lamp';
+import { LampRectWhitePicker } from '@ray-js/components-ty-lamp';
 import { useDispatch } from 'react-redux';
 import { useSupport, utils } from '@ray-js/panel-sdk';
 
@@ -48,29 +48,35 @@ const WhiteLightPanel: React.FC<Props> = (props) => {
 
   return (
     <View>
-      {/* 固定白光色块 */}
+      {/* 色温 */}
       <View className={styles.module_list} style={{ marginTop: '40rpx' }}>
         <View className={styles.label}>
-          <Image src={require('@/static/images/home/ic_primary.png')}></Image>
-          {String.getLang('color_choose')}
+          <Image src={require('@/static/images/home/ic_disk.png')} />
         </View>
-        <View className={styles.color_list}>
-          {fixWhite.map((item, index) => (
+        <View style={{ margin: '0 auto' }}>
+          {isSupportTemp ? (
+            <LampRectWhitePicker
+              temp={Math.ceil(temperature)}
+              borderRadius={16} // 设置圆角 优先级低于 borderRadiusStyle
+              borderRadiusStyle="16rpx"
+              rectWidth={300}
+              rectHeight={117}
+              thumbRadius={12}
+              isShowTip
+              onTouchEnd={handleTouchEndByWhite}
+              canvasId="white_picker_1"
+            />
+          ) : (
             <View
-              key={index}
-              className={`${styles.color_item} ${styles.clear} ${primaryWhiteIndex === index ? styles.color_item_active : ''
-                }`}
-              onClick={() => {
-                setPrimaryWhiteIndex(index);
-                onChoosePrimaryWhite(index)
+              style={{
+                width: '300px',
+                height: '117px',
+                borderRadius: '16px',
+                background: '#FFCC62',
+                boxSizing: 'border-box',
               }}
-            >
-              <View
-                className={styles.color_box}
-                style={{ backgroundColor: brightKelvin2rgb(item.brightness, item.temperature) }}
-              />
-            </View>
-          ))}
+            />
+          )}
         </View>
       </View>
 
@@ -82,50 +88,22 @@ const WhiteLightPanel: React.FC<Props> = (props) => {
           <Text style={{ marginLeft: '16rpx' }}>{Math.ceil(brightness / 10)}%</Text>
         </View>
         <TYSlider
-          maxTrackWidth="656rpx"
-          maxTrackHeight="30rpx"
-          maxTrackRadius="30rpx"
-          minTrackWidth="656rpx"
-          minTrackHeight="30rpx"
-          thumbWidth="40rpx"
-          thumbHeight="40rpx"
-          maxTrackColor="#45424A"
           style={{ marginTop: '24rpx' }}
+          maxTrackHeight={"40rpx"}
+          minTrackHeight={"40rpx"}
+          minTrackRadius={"40rpx"}
+          maxTrackRadius={"40rpx"}
+          parcel
+          maxTrackColor="#45424A"
+          thumbWidth={"40rpx"}
+          thumbHeight={"40rpx"}
+          thumbRadius={"40rpx"}
           min={1}
           max={100}
           step={1}
           value={Math.ceil(brightness / 10)}
           onAfterChange={onChangeBrightness}
         />
-      </View>
-
-      {/* 色温 */}
-      <View className={styles.module_list} style={{ marginTop: '40rpx' }}>
-        <View className={styles.label}>
-          <Image src={require('@/static/images/home/ic_disk.png')} />
-        </View>
-        <View style={{ margin: '0 auto' }}>
-          {isSupportTemp ? (
-            <LampCirclePickerWhite
-              thumbRadius={15}
-              temperature={Math.ceil(temperature)}
-              radius={130}
-              onTouchEnd={handleTouchEndByWhite}
-              canvasId="white_picker_1"
-            />
-          ) : (
-            <View
-              style={{
-                margin: '60rpx',
-                width: '520rpx',
-                height: '520rpx',
-                borderRadius: '50%',
-                background: '#FFCC62',
-                boxSizing: 'border-box',
-              }}
-            />
-          )}
-        </View>
       </View>
     </View>
   );

@@ -251,15 +251,16 @@ const Music = () => {
               <Text style={{ marginLeft: "16rpx" }}>{micMusicData.sensitivity}</Text>
             </View>
             <TYSlider
-              maxTrackWidth="656rpx"
-              maxTrackHeight="16rpx"
-              maxTrackRadius="7rpx"
-              minTrackWidth="656rpx"
-              minTrackHeight="16rpx"
-              thumbWidth="18px"
-              thumbHeight="18px"
-              maxTrackColor="#45424A"
               style={{ marginTop: '24rpx' }}
+              maxTrackHeight={"40rpx"}
+              minTrackHeight={"40rpx"}
+              minTrackRadius={"40rpx"}
+              maxTrackRadius={"40rpx"}
+              parcel
+              maxTrackColor="#45424A"
+              thumbWidth={"40rpx"}
+              thumbHeight={"40rpx"}
+              thumbRadius={"40rpx"}
               min={1}
               max={100}
               value={micMusicData.sensitivity}

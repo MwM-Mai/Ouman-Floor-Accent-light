@@ -89,10 +89,28 @@ const SmearLights = () => {
     }
   }, [isShowSave])
 
-  const curtrentMode = useMemo(() => {
-    if (smearData.smearMode === SmearMode.all) return smearModeList[0];
-    return smearModeList[1]
-  }, [smearData.smearMode])
+  const paintList = useMemo(() => {
+    return [
+      {
+        hide: false,
+        icon: require('@/static/images/paint/ic_all.png'),
+        iconActive: require('@/static/images/paint/ic_all_active.png'),
+        key: SmearMode.all
+      },
+      {
+        hide: smearData.dimmerMode === DimmerMode.combination,
+        icon: require('@/static/images/paint/ic_paint.png'),
+        iconActive: require('@/static/images/paint/ic_paint_active.png'),
+        key: SmearMode.single
+      },
+      {
+        hide: smearData.dimmerMode === DimmerMode.combination,
+        icon: require('@/static/images/paint/ic_clean.png'),
+        iconActive: require('@/static/images/paint/ic_clean_active.png'),
+        key: SmearMode.clear
+      }
+    ]
+  }, [smearData.smearMode, smearData.dimmerMode])
 
   const smearedColor = useMemo(() => {
     if (smearData.dimmerMode === DimmerMode.colour) return { h: smearData.hue, s: smearData.saturation, v: smearData.value === 0 ? 0 : 1000 };
@@ -260,22 +278,25 @@ const SmearLights = () => {
     <View className={styles.smear_lights}>
       <View className={styles.strip_box}>
         <View className={styles.strip_top}>
-          <View className={styles.strip_mode_item}
-            onClick={() => {
-              handleMearModeChange(smearData.smearMode === SmearMode.all ? SmearMode.single : SmearMode.all)
-            }}>
-            {curtrentMode}
+          <View className={styles.paint_box}>
+            {paintList.filter(item => !item.hide).map((item, index) => (
+              <View key={index} className={styles.paint_box_item}
+                onClick={() => { handleMearModeChange(item.key) }}>
+                <Image src={smearData.smearMode === item.key ? item.iconActive : item.icon} />
+              </View>
+            ))}
           </View>
+          {
+            smearData.smearMode !== SmearMode.all && (
+              <Switch
+                checked={Boolean(smearData.effect)}
+                size="48rpx"
+                onChange={hanadleChangeGradient}
+              />
+            )
+          }
         </View>
         <View className={clsx(styles.dimmer_strip, smearData.smearMode === SmearMode.all && styles.dimmer_strip_all, animation)}>
-          <View style={{ width: "100%", height: "30px", display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            {String.getLang("gradient")}
-            <Switch
-              checked={Boolean(smearData.effect)}
-              size="48rpx"
-              onChange={hanadleChangeGradient}
-            />
-          </View>
           <DimmerStrip
             width={340}
             height={150}

@@ -82,13 +82,15 @@ const More = () => {
         <View className={clsx(styles.item, styles.motor)}>
           {String.getLang("motor_speed")} 10%
           <TYSlider
-            maxTrackWidth="600rpx"
-            maxTrackHeight="16rpx"
-            maxTrackRadius="7rpx"
-            minTrackWidth="600rpx"
-            minTrackHeight="16rpx"
-            thumbWidth="18px"
-            thumbHeight="18px"
+            maxTrackHeight={"40rpx"}
+            minTrackHeight={"40rpx"}
+            minTrackRadius={"40rpx"}
+            maxTrackRadius={"40rpx"}
+            parcel
+            maxTrackColor="#45424A"
+            thumbWidth={"40rpx"}
+            thumbHeight={"40rpx"}
+            thumbRadius={"40rpx"}
             maxTrackColor="#45424A"
             style={{ marginTop: '20rpx' }}
             min={0}

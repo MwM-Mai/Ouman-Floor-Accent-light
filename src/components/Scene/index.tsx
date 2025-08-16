@@ -231,7 +231,7 @@ const Scene = () => {
               ))
               }
             </View>
-            <View className={styles.label}>
+            {/* <View className={styles.label}>
               <Text></Text>
               <View className={styles.edit}
                 onClick={() => {
@@ -240,7 +240,7 @@ const Scene = () => {
                 <Image src={edit ? require('@/static/images/common/ic_return.png') : require('@/static/images/common/ic_edit.png')}></Image>
                 <Text>{edit ? String.getLang("cancel") : String.getLang("edit")}</Text>
               </View>
-            </View>
+            </View> */}
             <View className={styles.scene_list}>
               {list.map((item, index) => (
                 <View key={item.name} className={styles.scene_list_item}
