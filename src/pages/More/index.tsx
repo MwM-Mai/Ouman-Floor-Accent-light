@@ -1,27 +1,19 @@
 import React, { useEffect, useState, useMemo, memo } from 'react';
 import { View, Image, Text, ScrollView, router, navigateTo } from '@ray-js/ray';
-import {
-  useDevice,
-  useActions,
-  useProps,
-  useSupport
-} from '@ray-js/panel-sdk';
+import { useDevice, useActions, useProps, useSupport } from '@ray-js/panel-sdk';
 import clsx from 'clsx';
 import TYSlider from '@ray-js/components-ty-slider';
 
-import { Navbar } from '@/components'
-import { getCachedSystemInfo } from "@/api/getCachedSystemInfo"
-import styles from './index.module.less'
+import { Navbar } from '@/components';
+import { getCachedSystemInfo } from '@/api/getCachedSystemInfo';
 import { openScheduleFunctional } from '@/utils/openScheduleFunctional';
 import { lampSchemaMap } from '@/devices/schema';
-import String from '@/i18n'
+import String from '@/i18n';
+import styles from './index.module.less';
 
 const { statusBarHeight } = getCachedSystemInfo();
 
-const {
-  countdown,
-  do_not_disturb,
-} = lampSchemaMap;
+const { countdown, do_not_disturb } = lampSchemaMap;
 const More = () => {
   const support = useSupport();
   const deviceId = useDevice(d => d.devInfo.devId);
@@ -32,8 +24,8 @@ const More = () => {
    * 处理点击定时设置
    */
   const handleClickClock = () => {
-    openScheduleFunctional()
-  }
+    openScheduleFunctional();
+  };
 
   /**
    * 处理点击停电勿扰
@@ -44,28 +36,36 @@ const More = () => {
     navigateTo({
       url: jumpUrl,
     });
-  }
+  };
 
   return (
     <View className={styles.more}>
-      <Navbar leftRender={() => (
-        <View className={styles.back_icon}>
-          <Image src={require('@/static/images/common/ic_back.png')} className="" />
-        </View>
-      )}
-        title="更多" />
-      <ScrollView scrollY={true} style={{
-        width: '100%',
-        height: `calc(100vh - ${statusBarHeight || 0}px - 44px)`,
-        padding: "20rpx 36rpx",
-        boxSizing: "border-box"
-      }}>
-        {!isGroupDevice && <View className={styles.item} onClick={() => {
-          handleClickClock()
-        }}>
-          {String.getLang("timing")}
+      <Navbar
+        leftRender={() => (
+          <View className={styles.back_icon}>
+            <Image src={require('@/static/images/common/ic_back.png')} className="" />
+          </View>
+        )}
+        title="更多"
+      />
+      <ScrollView
+        scrollY
+        style={{
+          width: '100%',
+          height: `calc(100vh - ${statusBarHeight || 0}px - 44px)`,
+          padding: '20rpx 36rpx',
+          boxSizing: 'border-box',
+        }}
+      >
+        <View
+          className={styles.item}
+          onClick={() => {
+            handleClickClock();
+          }}
+        >
+          {String.getLang('timing')}
           <Image src={require('@/static/images/common/ic_enter.png')} className="" />
-        </View>}
+        </View>
         {/* {support.isSupportDp(do_not_disturb.code) && !isGroupDevice && <View className={styles.item} onClick={() => {
           handleClickDoNotDisturb();
         }}>
@@ -105,6 +105,6 @@ const More = () => {
       </ScrollView>
     </View>
   );
-}
+};
 
 export default memo(More);

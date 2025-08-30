@@ -12,7 +12,6 @@ const defaultWhite = [
 ];
 const defaultWhiteC = [{ brightness: 10 }, { brightness: 500 }, { brightness: 1000 }];
 
-
 const defaultAppMusicList: MusicConfig[] = [
   {
     mode: 1,
@@ -158,7 +157,7 @@ const defaultLocalMusicList: MicMusicData[] = [
   // 频谱
   {
     v: 1,
-    power: false,
+    power: true,
     id: 5,
     isLight: 1,
     mode: 0,
@@ -196,7 +195,7 @@ const defaultSceneValue: SceneValueType = {
   brightness: 100, // 亮度
   colors: [
     { hue: 0, saturation: 100 },
-    { hue: 120, saturation: 100 }
+    { hue: 120, saturation: 100 },
   ], // 颜色单元数组
 };
 
@@ -208,8 +207,8 @@ const sceneModes: IDIYScene[] = sceneModesKeys.map(key => ({
   id: 1, // 场景ID
   // @ts-ignore
   name: Strings.getLang(`scene_mode_${key}`), // 模式名称
-  title: "", // 自定义场景名称
-  pic: "", // 场景图片路径
+  title: '', // 自定义场景名称
+  pic: '', // 场景图片路径
   value: {
     ...defaultSceneValue,
     mode: key,
@@ -219,145 +218,145 @@ const sceneModes: IDIYScene[] = sceneModesKeys.map(key => ({
 // 组合色卡
 export const groupColorsList = [
   [
-    { hue: 339, saturation: 33, value: 96 },
-    { hue: 338, saturation: 65, value: 100 },
-    { hue: 339, saturation: 98, value: 98 },
-    { hue: 338, saturation: 87, value: 100 }
+    { hue: 339, saturation: 330, value: 960 },
+    { hue: 338, saturation: 650, value: 1000 },
+    { hue: 339, saturation: 980, value: 980 },
+    { hue: 338, saturation: 870, value: 1000 },
   ],
   [
-    { hue: 284, saturation: 43, value: 100 },
-    { hue: 284, saturation: 43, value: 85 },
-    { hue: 219, saturation: 42, value: 99 },
-    { hue: 219, saturation: 35, value: 100 },
+    { hue: 284, saturation: 430, value: 1000 },
+    { hue: 284, saturation: 430, value: 850 },
+    { hue: 219, saturation: 420, value: 990 },
+    { hue: 219, saturation: 350, value: 1000 },
   ],
   [
-    { hue: 217, saturation: 100, value: 99 },
-    { hue: 258, saturation: 81, value: 70 },
-    { hue: 59, saturation: 74, value: 100 },
-    { hue: 339, saturation: 98, value: 98 },
+    { hue: 217, saturation: 1000, value: 990 },
+    { hue: 258, saturation: 810, value: 700 },
+    { hue: 59, saturation: 740, value: 1000 },
+    { hue: 339, saturation: 980, value: 980 },
   ],
   [
-    { hue: 6, saturation: 69, value: 100 },
-    { hue: 37, saturation: 75, value: 100 },
-    { hue: 193, saturation: 100, value: 99 },
-    { hue: 65, saturation: 58, value: 94 },
+    { hue: 6, saturation: 690, value: 1000 },
+    { hue: 37, saturation: 750, value: 1000 },
+    { hue: 193, saturation: 1000, value: 990 },
+    { hue: 65, saturation: 580, value: 940 },
   ],
   [
-    { hue: 197, saturation: 20, value: 100 },
-    { hue: 194, saturation: 42, value: 99 },
-    { hue: 193, saturation: 100, value: 99 },
-    { hue: 193, saturation: 67, value: 99 },
+    { hue: 197, saturation: 200, value: 1000 },
+    { hue: 194, saturation: 420, value: 990 },
+    { hue: 193, saturation: 1000, value: 990 },
+    { hue: 193, saturation: 670, value: 990 },
   ],
   [
-    { hue: 94, saturation: 66, value: 73 },
-    { hue: 92, saturation: 55, value: 83 },
-    { hue: 66, saturation: 26, value: 97 },
-    { hue: 92, saturation: 37, value: 87 },
+    { hue: 94, saturation: 660, value: 730 },
+    { hue: 92, saturation: 550, value: 830 },
+    { hue: 66, saturation: 260, value: 970 },
+    { hue: 92, saturation: 370, value: 870 },
   ],
   [
-    { hue: 94, saturation: 66, value: 73 },
-    { hue: 66, saturation: 77, value: 93 },
-    { hue: 25, saturation: 100, value: 100 },
-    { hue: 40, saturation: 100, value: 100 },
+    { hue: 94, saturation: 660, value: 730 },
+    { hue: 66, saturation: 770, value: 930 },
+    { hue: 25, saturation: 1000, value: 1000 },
+    { hue: 40, saturation: 1000, value: 1000 },
   ],
   [
-    { hue: 11, saturation: 92, value: 100 },
-    { hue: 25, saturation: 100, value: 100 },
-    { hue: 94, saturation: 66, value: 73 },
-    { hue: 40, saturation: 100, value: 100 },
+    { hue: 11, saturation: 920, value: 1000 },
+    { hue: 25, saturation: 1000, value: 1000 },
+    { hue: 94, saturation: 660, value: 730 },
+    { hue: 40, saturation: 1000, value: 1000 },
   ],
   [
-    { hue: 258, saturation: 81, value: 70 },
-    { hue: 217, saturation: 100, value: 99 },
-    { hue: 57, saturation: 58, value: 100 },
-    { hue: 283, saturation: 77, value: 95 },
+    { hue: 258, saturation: 810, value: 700 },
+    { hue: 217, saturation: 1000, value: 990 },
+    { hue: 57, saturation: 580, value: 1000 },
+    { hue: 283, saturation: 770, value: 950 },
   ],
   [
-    { hue: 259, saturation: 45, value: 100 },
-    { hue: 259, saturation: 69, value: 99 },
-    { hue: 258, saturation: 81, value: 70 },
-    { hue: 255, saturation: 62, value: 49 },
+    { hue: 259, saturation: 450, value: 1000 },
+    { hue: 259, saturation: 690, value: 990 },
+    { hue: 258, saturation: 810, value: 700 },
+    { hue: 255, saturation: 620, value: 490 },
   ],
   [
-    { hue: 40, saturation: 100, value: 100 },
-    { hue: 37, saturation: 75, value: 100 },
-    { hue: 34, saturation: 34, value: 100 },
-    { hue: 36, saturation: 53, value: 100 },
+    { hue: 40, saturation: 1000, value: 1000 },
+    { hue: 37, saturation: 750, value: 1000 },
+    { hue: 34, saturation: 340, value: 1000 },
+    { hue: 36, saturation: 530, value: 1000 },
   ],
   [
-    { hue: 40, saturation: 100, value: 100 },
-    { hue: 193, saturation: 100, value: 99 },
-    { hue: 11, saturation: 92, value: 100 },
-    { hue: 255, saturation: 80, value: 92 },
+    { hue: 40, saturation: 1000, value: 1000 },
+    { hue: 193, saturation: 1000, value: 990 },
+    { hue: 11, saturation: 920, value: 1000 },
+    { hue: 255, saturation: 800, value: 920 },
   ],
   [
-    { hue: 92, saturation: 37, value: 87 },
-    { hue: 193, saturation: 67, value: 99 },
-    { hue: 11, saturation: 92, value: 100 },
-    { hue: 259, saturation: 69, value: 99 },
+    { hue: 92, saturation: 370, value: 870 },
+    { hue: 193, saturation: 670, value: 990 },
+    { hue: 11, saturation: 920, value: 1000 },
+    { hue: 259, saturation: 690, value: 990 },
   ],
   [
-    { hue: 285, saturation: 78, value: 74 },
-    { hue: 338, saturation: 65, value: 100 },
-    { hue: 339, saturation: 98, value: 98 },
-    { hue: 25, saturation: 100, value: 100 },
-    { hue: 59, saturation: 74, value: 100 },
+    { hue: 285, saturation: 780, value: 740 },
+    { hue: 338, saturation: 650, value: 1000 },
+    { hue: 339, saturation: 980, value: 980 },
+    { hue: 25, saturation: 1000, value: 1000 },
+    { hue: 59, saturation: 740, value: 1000 },
   ],
   [
-    { hue: 285, saturation: 81, value: 70 },
-    { hue: 255, saturation: 80, value: 92 },
-    { hue: 259, saturation: 69, value: 99 },
-    { hue: 259, saturation: 45, value: 100 },
-    { hue: 257, saturation: 21, value: 100 },
+    { hue: 285, saturation: 810, value: 700 },
+    { hue: 255, saturation: 800, value: 920 },
+    { hue: 259, saturation: 690, value: 990 },
+    { hue: 259, saturation: 450, value: 1000 },
+    { hue: 257, saturation: 210, value: 1000 },
   ],
   [
-    { hue: 0, saturation: 56, value: 100 },
-    { hue: 0, saturation: 69, value: 100 },
-    { hue: 0, saturation: 77, value: 100 },
-    { hue: 0, saturation: 84, value: 100 },
-    { hue: 0, saturation: 100, value: 100 },
+    { hue: 0, saturation: 560, value: 1000 },
+    { hue: 0, saturation: 690, value: 1000 },
+    { hue: 0, saturation: 770, value: 1000 },
+    { hue: 0, saturation: 840, value: 1000 },
+    { hue: 0, saturation: 1000, value: 1000 },
   ],
   [
-    { hue: 217, saturation: 100, value: 99 },
-    { hue: 218, saturation: 55, value: 100 },
-    { hue: 36, saturation: 53, value: 100 },
-    { hue: 40, saturation: 100, value: 50 },
-    { hue: 25, saturation: 100, value: 100 },
+    { hue: 217, saturation: 1000, value: 990 },
+    { hue: 218, saturation: 550, value: 1000 },
+    { hue: 36, saturation: 530, value: 1000 },
+    { hue: 40, saturation: 1000, value: 500 },
+    { hue: 25, saturation: 1000, value: 1000 },
   ],
   [
-    { hue: 284, saturation: 43, value: 100 },
-    { hue: 57, saturation: 58, value: 100 },
-    { hue: 92, saturation: 55, value: 83 },
-    { hue: 193, saturation: 67, value: 99 },
-    { hue: 259, saturation: 45, value: 100 },
+    { hue: 284, saturation: 430, value: 1000 },
+    { hue: 57, saturation: 580, value: 1000 },
+    { hue: 92, saturation: 550, value: 830 },
+    { hue: 193, saturation: 670, value: 990 },
+    { hue: 259, saturation: 450, value: 1000 },
   ],
   [
-    { hue: 216, saturation: 77, value: 99 },
-    { hue: 255, saturation: 80, value: 92 },
-    { hue: 354, saturation: 98, value: 98 },
-    { hue: 25, saturation: 100, value: 100 },
-    { hue: 40, saturation: 99, value: 56 },
+    { hue: 216, saturation: 770, value: 990 },
+    { hue: 255, saturation: 800, value: 920 },
+    { hue: 354, saturation: 980, value: 980 },
+    { hue: 25, saturation: 1000, value: 1000 },
+    { hue: 40, saturation: 990, value: 560 },
   ],
   [
-    { hue: 94, saturation: 66, value: 73 },
-    { hue: 92, saturation: 55, value: 83 },
-    { hue: 92, saturation: 37, value: 87 },
-    { hue: 66, saturation: 77, value: 93 },
-    { hue: 65, saturation: 31, value: 81 },
+    { hue: 94, saturation: 660, value: 730 },
+    { hue: 92, saturation: 550, value: 830 },
+    { hue: 92, saturation: 370, value: 870 },
+    { hue: 66, saturation: 770, value: 930 },
+    { hue: 65, saturation: 310, value: 810 },
   ],
   [
-    { hue: 193, saturation: 67, value: 99 },
-    { hue: 37, saturation: 75, value: 100 },
-    { hue: 25, saturation: 100, value: 100 },
-    { hue: 285, saturation: 99, value: 67 },
-    { hue: 285, saturation: 78, value: 81 },
+    { hue: 193, saturation: 670, value: 990 },
+    { hue: 37, saturation: 750, value: 1000 },
+    { hue: 25, saturation: 1000, value: 1000 },
+    { hue: 285, saturation: 990, value: 670 },
+    { hue: 285, saturation: 780, value: 810 },
   ],
   [
-    { hue: 342, saturation: 30, value: 98 },
-    { hue: 335, saturation: 45, value: 98 },
-    { hue: 338, saturation: 67, value: 98 },
-    { hue: 360, saturation: 71, value: 98 },
-    { hue: 1, saturation: 100, value: 97 },
+    { hue: 342, saturation: 300, value: 980 },
+    { hue: 335, saturation: 450, value: 980 },
+    { hue: 338, saturation: 670, value: 980 },
+    { hue: 360, saturation: 710, value: 980 },
+    { hue: 1, saturation: 1000, value: 970 },
   ],
 ];
 
@@ -368,5 +367,5 @@ export default {
   defaultAppMusicList,
   defaultLocalMusicList,
   sceneModes,
-  defaultSceneValue
+  defaultSceneValue,
 };
