@@ -23,6 +23,9 @@ const tabList = [
   {
     name: String.getLang('scene_tab_name_3'),
   },
+  {
+    name: String.getLang('scene_tab_name_4'),
+  },
 ];
 
 const auxScenes: IAuxScene[] = [
@@ -406,7 +409,7 @@ const auxScenes: IAuxScene[] = [
     name: String.getLang('scene_name_0306'),
   },
   {
-    sceneId: 7,
+    sceneId: 8,
     value: [
       {
         transitionInterval: 70,

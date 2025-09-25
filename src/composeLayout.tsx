@@ -5,13 +5,15 @@ import _ from 'lodash';
 import store from '@/redux';
 import { devices, dpKit } from '@/devices';
 import { utils, SmartSupportAbility, useDevice } from '@ray-js/panel-sdk';
-import { lampSchemaMap } from "@/devices/schema"
-import { initCloud } from './redux/modules/cloudStateSlice';
+import { lampSchemaMap } from '@/devices/schema';
 import './styles/index.less';
+import getScenes from '@/config/scene';
+import Storage from '@/api/storage';
+import SmearDataFormatter, {
+  DimmerMode,
+} from '@/devices/protocols/parsers/PaintColourDataFormatter';
 import { CLOUD_DATA_KEYS_MAP } from './constant';
-import getScenes from '@/config/scene'
-import Storage from '@/api/storage'
-import SmearDataFormatter, { DimmerMode } from '@/devices/protocols/parsers/PaintColourDataFormatter'
+import { initCloud } from './redux/modules/cloudStateSlice';
 
 interface Props {
   devInfo: DevInfo;
@@ -30,8 +32,7 @@ let lightNum = 1; // 灯带点数
 const { light_pixel, paint_colour_data } = lampSchemaMap;
 
 const composeLayout = (Comp: React.ComponentType<any>) => {
-
-  let smearData = null
+  let smearData = null;
 
   // 创建一个 Support 实例
   const support = new SmartSupportAbility();
@@ -43,9 +44,11 @@ const composeLayout = (Comp: React.ComponentType<any>) => {
       devices.lamp.onInitialized(device => {
         device = device;
         dpKit.init(device);
-        lightNum = device.getDevInfo().dps[light_pixel.id] ? device.getDevInfo().dps[light_pixel.id] : 1;
-        const smearDataformatter = new SmearDataFormatter()
-        smearData = smearDataformatter.parser(device.getDevInfo().dps[paint_colour_data.id])
+        lightNum = device.getDevInfo().dps[light_pixel.id]
+          ? device.getDevInfo().dps[light_pixel.id]
+          : 1;
+        const smearDataformatter = new SmearDataFormatter();
+        smearData = smearDataformatter.parser(device.getDevInfo().dps[paint_colour_data.id]);
         this.initCloudData();
       });
     }
@@ -56,7 +59,8 @@ const composeLayout = (Comp: React.ComponentType<any>) => {
     async initCloudData() {
       // @ts-ignore
       ty.showLoading({ title: '' });
-      return devices.lamp.model.abilities.storage.getAll()
+      return devices.lamp.model.abilities.storage
+        .getAll()
         .then((data: Object) => {
           // 在云端没有数据的情况下，使用默认值
           const cloudData = {
@@ -65,7 +69,7 @@ const composeLayout = (Comp: React.ComponentType<any>) => {
             [CLOUD_DATA_KEYS_MAP.diyScenes]: [],
             [CLOUD_DATA_KEYS_MAP.customScenes]: [],
             [CLOUD_DATA_KEYS_MAP.smearLightColorMaps]: {},
-            [CLOUD_DATA_KEYS_MAP.collectSmearMap]: {}
+            [CLOUD_DATA_KEYS_MAP.collectSmearMap]: {},
           } as Parameters<typeof initCloud>['0'];
           Object.keys(data).forEach(key => {
             if (key.startsWith(CLOUD_DATA_KEYS_MAP.diyScenes)) {
@@ -78,18 +82,21 @@ const composeLayout = (Comp: React.ComponentType<any>) => {
             }
             if (key.startsWith(CLOUD_DATA_KEYS_MAP.collectColors)) {
               // 判断是否存在收藏彩光
-              cloudData[CLOUD_DATA_KEYS_MAP.collectColors] = data[key]?.data?.value
+              cloudData[CLOUD_DATA_KEYS_MAP.collectColors] = data[key]?.data?.value;
             }
             if (key.startsWith(CLOUD_DATA_KEYS_MAP.collectWhites)) {
               // 判断是否存在收藏白光
-              cloudData[CLOUD_DATA_KEYS_MAP.collectWhites] = data[key]?.data?.value
+              cloudData[CLOUD_DATA_KEYS_MAP.collectWhites] = data[key]?.data?.value;
             }
             if (key.startsWith(CLOUD_DATA_KEYS_MAP.smearLightColorMaps)) {
               // 判断是否存在涂抹调色
-              cloudData[CLOUD_DATA_KEYS_MAP.smearLightColorMaps] = { ...cloudData[CLOUD_DATA_KEYS_MAP.smearLightColorMaps], ...data[key]?.data?.value }
+              cloudData[CLOUD_DATA_KEYS_MAP.smearLightColorMaps] = {
+                ...cloudData[CLOUD_DATA_KEYS_MAP.smearLightColorMaps],
+                ...data[key]?.data?.value,
+              };
             }
             if (key.startsWith(CLOUD_DATA_KEYS_MAP.collectSmearMap)) {
-              cloudData[CLOUD_DATA_KEYS_MAP.collectSmearMap] = data[key]?.data?.value
+              cloudData[CLOUD_DATA_KEYS_MAP.collectSmearMap] = data[key]?.data?.value;
             }
           });
 
@@ -97,19 +104,19 @@ const composeLayout = (Comp: React.ComponentType<any>) => {
           if (support.isSupportBright() && support.isSupportTemp()) type = 'five';
           if (support.isSupportBright() && !support.isSupportTemp()) type = 'four';
           if (!support.isSupportBright() && !support.isSupportTemp()) type = 'three';
-          const customScenes = _.cloneDeep(getScenes(type))
+          const customScenes = _.cloneDeep(getScenes(type));
           if (cloudData[CLOUD_DATA_KEYS_MAP.customScenes].length !== customScenes.length) {
-            cloudData[CLOUD_DATA_KEYS_MAP.customScenes] = customScenes
+            cloudData[CLOUD_DATA_KEYS_MAP.customScenes] = customScenes;
             for (let index = 0; index < customScenes.length; index++) {
               const element = customScenes[index];
-              const key = `${CLOUD_DATA_KEYS_MAP.customScenes}_${element.id}`
-              console.log("=== storage.set", element);
-              Storage.set(key, element);
-
+              const key = `${CLOUD_DATA_KEYS_MAP.customScenes}_${element.id}`;
+              setTimeout(() => {
+                Storage.set(key, element);
+              }, 50 * index);
             }
           }
 
-          let rgb = "rgb(255, 0, 0)";
+          let rgb = 'rgb(255, 0, 0)';
           if (smearData !== null) {
             if (smearData.dimmerMode === DimmerMode.white) {
               rgb = brightKelvin2rgb(smearData.brightness, smearData.temperature);
@@ -126,7 +133,7 @@ const composeLayout = (Comp: React.ComponentType<any>) => {
           if (Object.keys(cloudData[CLOUD_DATA_KEYS_MAP.smearLightColorMaps]).length !== 24) {
             const _lightColorMaps = {};
             new Array(24).fill(0).forEach((_, index) => {
-              _lightColorMaps[index] = rgb
+              _lightColorMaps[index] = rgb;
             });
             cloudData[CLOUD_DATA_KEYS_MAP.smearLightColorMaps] = _lightColorMaps;
           }
