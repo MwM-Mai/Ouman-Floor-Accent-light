@@ -98,24 +98,24 @@ export function Home() {
     if (power) {
       if (main_switch && aux_switch) {
         return (
-          <Image className={styles.banner} src={require('@/static/images/home/all_light.jpg')} />
+          <Image className={styles.banner} src={require('@/static/images/home/all_light.png')} />
         );
       }
       if (main_switch) {
         return (
-          <Image className={styles.banner} src={require('@/static/images/home/king_light.jpg')} />
+          <Image className={styles.banner} src={require('@/static/images/home/king_light.png')} />
         );
       }
       if (aux_switch) {
         return (
-          <Image className={styles.banner} src={require('@/static/images/home/aux_light.jpg')} />
+          <Image className={styles.banner} src={require('@/static/images/home/aux_light.png')} />
         );
       }
       return (
-        <Image className={styles.banner} src={require('@/static/images/home/null_light.jpg')} />
+        <Image className={styles.banner} src={require('@/static/images/home/null_light.png')} />
       );
     }
-    return <Image className={styles.banner} src={require('@/static/images/home/null_light.jpg')} />;
+    return <Image className={styles.banner} src={require('@/static/images/home/null_light.png')} />;
   }, [power, main_switch, aux_switch]);
 
   return (
