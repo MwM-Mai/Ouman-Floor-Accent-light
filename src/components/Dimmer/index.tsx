@@ -385,113 +385,6 @@ const Dimmer = () => {
   };
 
   /**
-   * 处理选择收藏颜色
-   */
-  const handleChooseColectColor = (index: number) => {
-    if (edit) {
-      setType(2);
-      setId(index);
-      setShowAddcolor(true);
-    } else {
-      setColectIndex(index);
-      if (smearData.dimmerMode === DimmerMode.white) {
-        const { brightness, temperature } = collectWhites[index];
-        const data = {
-          ...smearData,
-          dimmerMode: DimmerMode.white,
-          brightness,
-          temperature,
-        };
-        dispatch(updateSmearData(data));
-        handleUpdateSmearColor(data);
-      } else if (smearData.dimmerMode === DimmerMode.colour) {
-        const { hue, saturation, value } = collectColours[index];
-        const data = {
-          ...smearData,
-          dimmerMode: DimmerMode.colour,
-          hue,
-          saturation,
-          value,
-        };
-        dispatch(updateSmearData(data));
-        handleUpdateSmearColor(data);
-      }
-    }
-  };
-
-  /**
-   * 处理点击编辑
-   */
-  const handleChangeEdit = () => {
-    setEdit(!edit);
-  };
-
-  /**
-   * 处理点击删除我的颜色
-   */
-  const handelRemoveColor = (index: number) => {
-    if (smearData.dimmerMode === DimmerMode.colour) {
-      const data = collectColours.filter((item, indey) => indey !== index);
-      devices.lamp.model.abilities.storage.set(CLOUD_DATA_KEYS_MAP.collectColors, data).then(() => {
-        dispatch(updateCollectColors(data));
-      });
-    } else if (smearData.dimmerMode === DimmerMode.white) {
-      const data = collectWhites.filter((item, indey) => indey !== index);
-      devices.lamp.model.abilities.storage.set(CLOUD_DATA_KEYS_MAP.collectWhites, data).then(() => {
-        dispatch(updateCollectWhites(data));
-      });
-    }
-  };
-
-  /**
-   * 处理点击色盘组件保存
-   */
-  const handleSave = ({ hs, temp }: ISavceData) => {
-    if (type === 1) {
-      if (smearData.dimmerMode === DimmerMode.colour) {
-        const hsv: IColorData = { hue: hs.h, saturation: hs.s, value: 1000 };
-        const data = [...collectColours, hsv];
-        devices.lamp.model.abilities.storage
-          .set(CLOUD_DATA_KEYS_MAP.collectColors, data)
-          .then(() => {
-            dispatch(updateCollectColors(data));
-          });
-      } else {
-        const tempOrbrigh = { temperature: temp, brightness: 1000 };
-        const data = [...collectWhites, tempOrbrigh];
-        devices.lamp.model.abilities.storage
-          .set(CLOUD_DATA_KEYS_MAP.collectWhites, data)
-          .then(() => {
-            dispatch(updateCollectWhites(data));
-          });
-      }
-    } else {
-      // 修改
-      if (smearData.dimmerMode === DimmerMode.colour) {
-        const hsv: IColorData = { hue: hs.h, saturation: hs.s, value: 1000 };
-        const data = [...collectColours];
-        data[id] = hsv;
-        devices.lamp.model.abilities.storage
-          .set(CLOUD_DATA_KEYS_MAP.collectColors, data)
-          .then(() => {
-            dispatch(updateCollectColors(data));
-          });
-      } else {
-        const tempOrbrigh = { temperature: temp, brightness: 1000 };
-        const data = [...collectWhites];
-        console.log('id', id);
-
-        data[id] = tempOrbrigh;
-        devices.lamp.model.abilities.storage
-          .set(CLOUD_DATA_KEYS_MAP.collectWhites, data)
-          .then(() => {
-            dispatch(updateCollectWhites(data));
-          });
-      }
-    }
-  };
-
-  /**
    * 处理更新涂抹调色
    */
   const handleUpdateSmearColor = (data: SmearDataType, colorMpas?: { [key: string]: string }) => {
@@ -556,29 +449,6 @@ const Dimmer = () => {
       });
   };
 
-  /**
-   * 渲染添加颜色弹窗
-   */
-  const render = useCallback(() => {
-    return (
-      <AddColor
-        showPopup={showAddcolor}
-        type={type}
-        mode={smearData.dimmerMode === DimmerMode.white ? 'white' : 'colour'}
-        id={id}
-        colours={collectColours}
-        closePopup={() => {
-          setShowAddcolor(false);
-          setId(-1);
-        }}
-        savaCallBack={async data => {
-          await handleSave(data);
-          setShowAddcolor(false);
-        }}
-      />
-    );
-  }, [showAddcolor, type, smearData.dimmerMode, id]);
-
   const mainLightRander = useMemo(() => {
     if (powerIndex !== 0) return null;
     return (
@@ -605,21 +475,21 @@ const Dimmer = () => {
         {/* 彩光组件区域 */}
         {(smearData.dimmerMode === DimmerMode.colour ||
           smearData.dimmerMode === DimmerMode.combination) && (
-          <ColorModePanel
-            hs={hs}
-            value={smearData.value}
-            showCombination
-            type={smearData.dimmerMode === DimmerMode.combination ? 2 : 0}
-            fixColor={fixColor}
-            onChoosePrimaryColor={handleChoosePrimaryColor}
-            onChangeBrightness={onChangeValueByColour}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            onDimmerModeChange={handleDimmerModeChange}
-            onChangeCombinationColor={handleChangeCombinationColor}
-            hsvToRgb={hsvToRgb}
-          />
-        )}
+            <ColorModePanel
+              hs={hs}
+              value={smearData.value}
+              showCombination
+              type={smearData.dimmerMode === DimmerMode.combination ? 2 : 0}
+              fixColor={fixColor}
+              onChoosePrimaryColor={handleChoosePrimaryColor}
+              onChangeBrightness={onChangeValueByColour}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onDimmerModeChange={handleDimmerModeChange}
+              onChangeCombinationColor={handleChangeCombinationColor}
+              hsvToRgb={hsvToRgb}
+            />
+          )}
         {/* 白光组件区域 */}
         {smearData.dimmerMode === DimmerMode.white && (
           <WhiteLightPanel
@@ -713,25 +583,31 @@ const Dimmer = () => {
         <View className={styles.power}>
           {powerList.map((item, index) => (
             <View key={index} className={styles.power_item}>
-              <View
-                className={styles.title}
-                onClick={() => {
-                  handleClickPowerChange(index);
-                }}
-              >
-                {item.name}
-                {powerIndex === index && (
-                  <Image src={require('@/static/images/home/ic_power_active.png')} />
-                )}
-              </View>
-              <View className={styles.power_switch}>
-                <Switch
-                  checked={item.code === 'main_switch' ? main_switch : aux_switch}
-                  size="48rpx"
-                  onChange={event => {
-                    action[item.code].toggle();
+              <View style={{
+                width: "100%", height: "100%", display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderRadius: '24rpx',
+                background: powerIndex === index ? "linear-gradient(45deg, #0b2967, #184e68)" : "none", padding: '0 16rpx',
+              }}>
+                <View
+                  className={styles.title}
+                  style={{ opacity: powerIndex === index ? 1 : 0.3 }}
+                  onClick={() => {
+                    handleClickPowerChange(index);
                   }}
-                />
+                >
+                  {item.name}
+                  {powerIndex === index && (
+                    <Image src={require('@/static/images/home/ic_power_active.png')} />
+                  )}
+                </View>
+                <View className={styles.power_switch}>
+                  <Switch
+                    checked={item.code === 'main_switch' ? main_switch : aux_switch}
+                    size="48rpx"
+                    onChange={event => {
+                      action[item.code].toggle();
+                    }}
+                  />
+                </View>
               </View>
             </View>
           ))}
@@ -739,56 +615,7 @@ const Dimmer = () => {
         {mainLightRander}
         {auxLightRander}
       </View>
-
-      {/* 我的颜色 */}
-      {/* {
-        (!support.isSupportTemp() && smearData.dimmerMode === DimmerMode.white) || powerIndex === 1 ? (
-          <></>
-        ) : <View className={styles.my_color}>
-          <View className={styles.label}>
-            <Text>{String.getLang("my_color")}</Text>
-            {collectList.length > 0 && (
-              <View className={styles.edit}
-                onClick={() => {
-                  handleChangeEdit();
-                }}>
-                <Image src={edit ? require('@/static/images/common/ic_return.png') : require('@/static/images/common/ic_edit.png')}></Image>
-                <Text>{edit ? String.getLang("cancel") : String.getLang("edit")}</Text>
-              </View>
-            )}
-          </View>
-          <View className={styles.collect_list}>
-            {collectList.map((item, index) => (
-              <View key={index} className={clsx(styles.color_item, colectIndex === index && styles.color_item_active)} onClick={() => {
-                handleChooseColectColor(index);
-              }}>
-                <View className={clsx(styles.color_box)}
-                  style={{
-                    backgroundColor: item.color
-                  }}
-                  hoverClassName={styles.color_box_hover}
-                >
-                </View>
-                {edit && <View className={styles.delete_btn} onClick={(e) => {
-                  e.origin.stopPropagation();
-                  handelRemoveColor(index);
-                }} >
-                  <Image src={require('@/static/images/common/ic_remove.png')}></Image>
-                </View>}
-              </View>))}
-          </View>
-          <View className={styles.add_color} onClick={() => {
-            if (collectColours.length >= 10) return;
-            setType(1);
-            setShowAddcolor(true);
-          }}>
-            + {String.getLang("add_color")}
-          </View>
-        </View>
-      } */}
-
-      {render()}
-    </View>
+    </View >
   );
 };
 

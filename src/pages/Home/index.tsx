@@ -80,6 +80,7 @@ export function Home() {
       dispatch(updateModeIndex(0));
     }
     if (mode == 'scene') {
+      if (modeIndex === 3) return;
       dispatch(updateModeIndex(1));
     }
     if (mode == 'music') {

@@ -36,6 +36,11 @@ class Storage {
       this.storage.getAll((localDatas: { [key: string]: TReturnRes }) => {
         resolve(localDatas);
       }).then((res: { [key: string]: TReturnRes }) => {
+        Object.keys(res).forEach(key => {
+          if (res[key] === null || res[key] === undefined) {
+            delete res[key];
+          }
+        });
         resolve(res);
       });
     });

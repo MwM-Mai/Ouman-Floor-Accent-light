@@ -19,7 +19,7 @@
     "@ray-js/image-color-picking": "^1.0.1",
     "@ray-js/panel-sdk": "1.13.5",
     "@ray-js/ray": "^1.6.1",
-    "@ray-js/ray-error-catch": "^0.0.25",
+    "@ray-js/ray-error-catch": "^0.0.26",
     "@ray-js/smart-ui": "^2.1.8",
     "@reduxjs/toolkit": "^2.0.1",
     "ahooks": "^3.7.1",

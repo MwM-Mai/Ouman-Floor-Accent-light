@@ -91,7 +91,7 @@ const DIY = () => {
         const [h, s, v] = utils.rgb2hsv(r, g, b);
         return {
           hue: Math.round(h),
-          saturation: Math.max(Math.round(s) + 20, 100),
+          saturation: Math.round(s),
         }
       });
       const idsSet = new Set(diyScenes.map(scene => scene.id));

@@ -50,7 +50,7 @@ export default {
     combination: 'Combination',
     white: 'White',
     color_choose: 'Pick Color',
-    brightness_choose: 'Adjust Brightness',
+    brightness_choose: 'Brightness',
     my_color: 'My Colors',
     add_color: 'Add Color',
     gradient: "Color Gradient",

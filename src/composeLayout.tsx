@@ -72,6 +72,7 @@ const composeLayout = (Comp: React.ComponentType<any>) => {
             [CLOUD_DATA_KEYS_MAP.collectSmearMap]: {},
           } as Parameters<typeof initCloud>['0'];
           Object.keys(data).forEach(key => {
+            if (data[key]?.data?.value === undefined || data[key]?.data?.value === null) return;
             if (key.startsWith(CLOUD_DATA_KEYS_MAP.diyScenes)) {
               // 判断是否存在diy自定义
               cloudData[CLOUD_DATA_KEYS_MAP.diyScenes].push(data[key]?.data?.value);
