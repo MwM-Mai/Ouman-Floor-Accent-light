@@ -137,10 +137,6 @@ const Dimmer = () => {
 
   const [powerIndex, setPowerIndex] = useState(0);
   const [colectIndex, setColectIndex] = useState(-1);
-  const [edit, setEdit] = useState(false);
-  const [showAddcolor, setShowAddcolor] = useState(false);
-  const [type, setType] = useState(1); // 1: 添加 2: 编辑
-  const [id, setId] = useState(-1); // 编辑的颜色id
 
   const powerList = useMemo(
     () => [
@@ -582,17 +578,18 @@ const Dimmer = () => {
         {/* 灯光控制组件 */}
         <View className={styles.power}>
           {powerList.map((item, index) => (
-            <View key={index} className={styles.power_item}>
+            <View key={index} className={styles.power_item}
+              onClick={() => {
+                handleClickPowerChange(index);
+              }}
+            >
               <View style={{
                 width: "100%", height: "100%", display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderRadius: '24rpx',
                 background: powerIndex === index ? "linear-gradient(45deg, #0b2967, #184e68)" : "none", padding: '0 16rpx',
               }}>
                 <View
                   className={styles.title}
-                  style={{ opacity: powerIndex === index ? 1 : 0.3 }}
-                  onClick={() => {
-                    handleClickPowerChange(index);
-                  }}
+                  style={{ fontWeight: powerIndex === index ? 'bold' : 'normal' }}
                 >
                   {item.name}
                   {powerIndex === index && (
