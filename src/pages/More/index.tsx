@@ -46,7 +46,7 @@ const More = () => {
             <Image src={require('@/static/images/common/ic_back.png')} className="" />
           </View>
         )}
-        title="更多"
+        title={String.getLang('more')}
       />
       <ScrollView
         scrollY

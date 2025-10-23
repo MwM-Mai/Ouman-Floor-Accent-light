@@ -207,7 +207,8 @@ const DIY = () => {
                 <View className={styles.name}>
                   {edit && <>
                     <View className={styles.scene_edit}
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.origin.stopPropagation();
                         handleEditScene(item)
                       }}
                     >

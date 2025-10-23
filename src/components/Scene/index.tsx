@@ -612,6 +612,11 @@ const Scene = () => {
               onClick={() => {
                 handleClickPowerChange(index);
               }}
+              style={{
+                borderRadius: '24rpx',
+                background: powerIndex === index ? "linear-gradient(45deg, #0b2967, #184e68)" : "none",
+                fontWeight: powerIndex === index ? 'bold' : 'normal'
+              }}
             >
               {item.name}
               {powerIndex === index && (
